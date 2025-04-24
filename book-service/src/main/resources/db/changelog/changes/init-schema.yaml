@@ -1,0 +1,180 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1745406737232-1
+      author: d.ilyin
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: password
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: role
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamptz
+              - column:
+                  name: created_by
+                  type: varchar(50)
+              - column:
+                  name: last_modified_at
+                  type: timestamptz
+              - column:
+                  name: last_modified_by
+                  type: varchar(50)
+  - changeSet:
+      id: 1745406737232-2
+      author: d.ilyin
+      changes:
+        - createTable:
+            tableName: authors
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamptz
+              - column:
+                  name: created_by
+                  type: varchar(50)
+              - column:
+                  name: last_modified_at
+                  type: timestamptz
+              - column:
+                  name: last_modified_by
+                  type: varchar(50)
+  - changeSet:
+      id: 1745406737232-3
+      author: d.ilyin
+      changes:
+        - createTable:
+            tableName: books
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: version
+                  type: integer
+                  defaultValue: "1"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamptz
+              - column:
+                  name: created_by
+                  type: varchar(50)
+              - column:
+                  name: last_modified_at
+                  type: timestamptz
+              - column:
+                  name: last_modified_by
+                  type: varchar(50)
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_books_users
+                    referencedTableName: users
+                    referencedColumnNames: id
+              - column:
+                  name: author_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_books_authors
+                    referencedTableName: authors
+                    referencedColumnNames: id
+  - changeSet:
+      id: 1745406737232-4
+      author: d.ilyin
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: "admin"
+              - column:
+                  name: password
+                  value: "{bcrypt}$2y$10$MqiezfLzqK.uwbV3sKho/OJ0M8BOMpx1kYQhkfKcyqPZEM8PHfLdC"
+              - column:
+                  name: role
+                  value: "ADMIN"
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: "user"
+              - column:
+                  name: password
+                  value: "{bcrypt}$2y$10$Ng53.ZoxsV0ECgpIJl3OkOPodrBPEbpq7PLDV4uhHeRRyeKlXeXEa"
+              - column:
+                  name: role
+                  value: "USER"
+  - changeSet:
+      id: 1745406737232-5
+      author: d.ilyin
+      changes:
+        - insert:
+            tableName: authors
+            columns:
+              - column:
+                  name: name
+                  value: "Herbert Wells"
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: author_id
+                  valueComputed: "currval('authors_id_seq')"
+              - column:
+                  name: title
+                  value: "The World of William Clissold"
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: author_id
+                  valueComputed: "currval('authors_id_seq')"
+              - column:
+                  name: title
+                  value: "The Passionate Friends"

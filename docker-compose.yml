@@ -1,0 +1,21 @@
+services:
+  book-service:
+    build:
+      dockerfile: ./book-service/Dockerfile
+    environment:
+      ACTIVE_PROFILE: prod
+    ports:
+      - "8080:8080"
+      - "5050:5050"
+  postgres:
+    image: postgres:16
+    volumes:
+      - postgres_data:/var/lib/postgresql@16/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+volumes:
+  postgres_data:

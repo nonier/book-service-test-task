@@ -1,0 +1,13 @@
+logging:
+  level:
+    ROOT: info
+spring:
+  application:
+    name: book-service
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+  profiles:
+    active: ${ACTIVE_PROFILE:dev}
+token:
+  signing:
+    key: FxRjWv1m8UgSeMrcJ7CBdpZvj4kqZ2E1RJZmpq8R9WY=
